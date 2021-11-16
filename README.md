@@ -1,31 +1,67 @@
-# GlobalWebIndex Engineering Challenge
+# GWI - Api
 
-## Introduction
+## Overview
+Implements a simple API which a user can use in order to fetch data for some core features (Insights, Charts Audience information) as also as subscribe and configure a variety of dashboard-assets. 
 
-This challenge is designed to give you the opportunity to demonstrate your abilities as a software engineer and specifically your knowledge of the Go language.
+## How to build locally the database
+Navigate to project's root folder and execute the commands below:
+```
+make compose-up
+make db-up
+```
 
-On the surface the challenge is trivial to solve, however you should choose to add features or capabilities which you feel demonstrate your skills and knowledge the best. For example, you could choose to optimise for performance and concurrency, you could choose to add a robust security layer or ensure your application is highly available. Or all of these.
+Now, the container that serves the `gwi` db is up, the schema is created and the objects are populated accordingly.
 
-Of course, usually we would choose to solve any given requirement with the simplest possible solution, however that is not the spirit of this challenge.
+## How to run locally the API server
+Navigate to project's root folder and execute the command below:
+```
+make server-serve
+```
 
-## Challenge
+Now, the server is up and listening to port `8080`.
 
-Let's say that in GWI platform all of our users have access to a huge list of assets. We want our users to have a peronal list of favourites, meaning assets that favourite or “star” so that they have them in their frontpage dashboard for quick access. An asset can be one the following
-* Chart (that has a small title, axes titles and data)
-* Insight (a small piece of text that provides some insight into a topic, e.g. "40% of millenials spend more than 3hours on social media daily")
-* Audience (which is a series of characteristics, for that exercise lets focus on gender (Male, Female), birth country, age groups, hours spent daily on social media, number of purchases last month)
-e.g. Males from 24-35 that spent more than 3 hours on social media daily.
+### Testing
+While the API is up and running execute the command below:
+```
+make api-test
+```
 
-Build a web server which has some endpoint to receive a user id and return a list of all the user’s favourites. Also we want endpoints that would add an asset to favourites, remove it, or edit its description. Assets obviously can share some common attributes (like their description) but they also have completely different structure and data. It’s up to you to decide the structure and we are not looking for something overly complex here (especially for the cases of audiences). There is no need to have/deploy/create an actual database although we would like to discuss about storage options and data representations.
+## Using the API
+`Endpoint `                                     | `Description`
+------------                                    | -------------
+(POST)  /healt                                  | Checks API's health
+(POST)  /auth/signup                            | User signup
+(POST)  /auth/login                             | User login - provides a bearer token
+(GET)   /dashboard/listassets                   | Lists all available assets
+(POST)  /dashboard/userassets                   | Gets all user's assets
+(PATCH) /dashboard/updateassetdescription       | Updates asset's description
+(POST)  /dashboard/subscription                 | User subscribes / unsubscribes to an asset
+(POST)  /insights/insights                      | Gets insights
+(POST)  /charts/chartvisits                     | Gets chart with platform visits
+(POST)  /charts/chartaudiencereach              | Gets chart with info about audience search trends
+(POST)  /audience/audiencesocialmedia           | Gets info about audience behavior regarding social media
+(POST)  /audience/audienceshopping              | Gets info about audience behavior regarding shopping
 
-Note that users have no limit on how many assets they want on their favourites so your service will need to provide a reasonable response time.
+Also, a [Postman API collection json file](./gwi.postman_collection.json) is provided in project's root folder.
 
-A working server application with functional API is required, along with a clear readme.md. Useful and passing tests would be also be viewed favourably 
+## Dependencies
+- Masterminds Squirrel - SQL generator for Go
+- Gorilla Mux - HTTP Router
+- Dgrijalva JWT - JSON Web Token Library
+- Go-MySQL-Driver - A MySQL-Driver for Go's database/sql package
+- Golang Crypto - A repository with cryptography libraries
 
-It is appreciated, though not required, if a Dockerfile is included.
+## Feature improvements 
+tl;dr
 
-## Submission
+### Storage
+Considering that a Dashboard feature is provided, a cache service, in combination with the concurrency logic that is already implemented, could be applied in order to achieve faster retrieve time for multiple Assets.
 
-Just a make a PR to the current repo!
+### Documentation
+It would be a good idea a Swagger documentation to be provided in order to explain the API endpoints extensively.
 
-Good luck, potential colleague! 
+### Testing
+More test cases for API integration testing as also as a unit testing package may be really helpful. 
+
+### Dockerfile
+A Dockerfile could speed up the build process.

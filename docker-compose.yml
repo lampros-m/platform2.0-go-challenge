@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  db:
+    container_name: gwidb
+    image: mysql:5.7.31
+    ports:
+      - 33066:3306
+    volumes:
+      - "./.mysql-data:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: gwi
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+
+      
