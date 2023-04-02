@@ -1,4 +1,4 @@
-# GWI - Api
+# Subscription Platform REST-API
 
 ## Overview
 Implements a simple API which a user can use in order to fetch data for some core features (Insights, Charts Audience information) as also as subscribe and configure a variety of dashboard-assets. 
@@ -10,7 +10,7 @@ make compose-up
 make db-up
 ```
 
-Now, the container that serves the `gwi` db is up, the schema is created and the objects are populated accordingly.
+Now, the container that serves the db is up, the schema is created and the objects are populated accordingly.
 
 ## How to run locally the API server
 Navigate to project's root folder and execute the command below:
